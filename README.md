@@ -722,7 +722,7 @@ finally:
 ```
 ![image](https://github.com/user-attachments/assets/ec3def68-f258-4a22-b966-cc08b508bc60)
 
-##Задание 2. **Вставьте 10 товаров в таблицу "Products".**
+## Задание 2. **Вставьте 10 товаров в таблицу "Products".**
 
 **Создадим таблицу Products и добавим 10 товаров**
 ```
@@ -784,7 +784,7 @@ finally:
 ```
 ![image](https://github.com/user-attachments/assets/5023ccbb-747f-4252-a567-0ef1f9331031)
 
-##Задание 3. **Выведите всех пациентов, получающих лечение от "Orthopedic".**
+## Задание 3. **Выведите всех пациентов, получающих лечение от "Orthopedic".**
 **Создадим таблицу Patient с полями p_id, p_name, d_id. Также пропишем второстепенный ключ к полю doctor_id**
 ```
 import psycopg2
@@ -827,6 +827,7 @@ finally:
         print("Соединение с PostgreSQL закрыто.")
 ```
 ![image](https://github.com/user-attachments/assets/a28c3ac9-a1b1-467a-b3e8-4f4a9b83b20d)
+
 **Затем внесем несколько пациентов в таблицу patient**
 ```
 import psycopg2
@@ -866,6 +867,7 @@ finally:
         print("Соединение с PostgreSQL закрыто.")
 ```
 ![image](https://github.com/user-attachments/assets/d2964c80-23cd-4a40-82e3-fbc9a4145e55)
+
 **Выполним запрос с Join тк данные хранятся в 2 таблицах**
 ```
 import psycopg2
@@ -920,7 +922,8 @@ finally:
         print("Соединение с PostgreSQL закрыто.")
 ```
 ![image](https://github.com/user-attachments/assets/add697d9-1b47-4728-a9e3-4be5d215a7d6)
-##Задание 4. **Выполните SQL-запрос для получения врачей, специализирующихся на "Dermatology".**
+
+## Задание 4. **Выполните SQL-запрос для получения врачей, специализирующихся на "Dermatology".**
 ```
 import psycopg2
 
@@ -973,7 +976,7 @@ finally:
 ```
 ![image](https://github.com/user-attachments/assets/66ea250f-33a3-4747-963f-3fee99a4f2eb)
 
-##Задание 5. **Создайте диаграмму для анализа распределения зарплат в зависимости от опыта.**
+## Задание 5.**Создайте диаграмму для анализа распределения зарплат в зависимости от опыта.**
 **Подключим библиотеку для визуализации запросов**
 ![image](https://github.com/user-attachments/assets/2851a5f1-01c2-41e9-b8d9-22bc7ff065ac)
 ```
