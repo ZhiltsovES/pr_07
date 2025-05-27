@@ -8,13 +8,13 @@
 ```
    !pip install psycopg2
 ```
-   !![image](https://github.com/user-attachments/assets/0306c23c-b58f-4487-b1d7-1c6a04ed0c45)
+   ![image](https://github.com/user-attachments/assets/0306c23c-b58f-4487-b1d7-1c6a04ed0c45)
 
 ```
      import psycopg2
      from psycopg2 import Error 
  ```
-!![image](https://github.com/user-attachments/assets/e8e108ac-f676-4780-8555-de346adf9c1a)
+![image](https://github.com/user-attachments/assets/e8e108ac-f676-4780-8555-de346adf9c1a)
 
 2. **Создадим подключение к базе данных**
  ```
@@ -46,7 +46,7 @@ finally:
         connection.close()
         print("Соединение с PostgreSQL закрыто")
 ```
-!![image](https://github.com/user-attachments/assets/766e8071-3f56-4ebc-86c4-2adfb8ca33b3)
+![image](https://github.com/user-attachments/assets/766e8071-3f56-4ebc-86c4-2adfb8ca33b3)
    
 
 
