@@ -5,6 +5,9 @@
 
 ## Запуск и подключение к базе данных
 1. **Загрузка библиотеки**
-   - !pip install psycopg2
-   ![Uploading image.png…]()
+'''
+   !pip install psycopg2
+'''   
+   !![image](https://github.com/user-attachments/assets/0306c23c-b58f-4487-b1d7-1c6a04ed0c45)
+
 
