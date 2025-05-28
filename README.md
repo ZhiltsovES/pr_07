@@ -680,7 +680,7 @@ update_experience(101)
 ```
 ![image](https://github.com/user-attachments/assets/fe3422d9-c291-4642-944c-f441bb6ed921)
 
-## Индивидуальные задания:
+## Индивидуальные задания: 11 Вариант
 **Задание 1. Создайте таблицу "Department" с полями "ID", "NAME".**
 ```
 import psycopg2
