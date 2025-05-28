@@ -1,0 +1,341 @@
+Задание 1. Создайте таблицу "Department" с полями "ID", "NAME".
+создаем подключение к серверу postgres, затем данные таблицы, вконце обязательно закрыв соединение
+import psycopg2
+
+try:
+    # Подключение к базе данных
+    connection = psycopg2.connect(
+        user="postgres",
+        password="Egor",
+        host="localhost",
+        port="5432",
+        database="medical_db"
+    )
+    
+    # Создание курсора
+    cursor = connection.cursor()
+    
+    # SQL-запрос для создания таблицы
+    create_table_query = """
+        CREATE TABLE Department (
+            ID serial NOT NULL PRIMARY KEY,
+            Name VARCHAR(100) NOT NULL
+        );
+    """
+    
+    # Выполнение SQL-запроса
+    cursor.execute(create_table_query)
+    
+    # Фиксация изменений
+    connection.commit()
+    print("Таблица успешно создана.")
+    
+except Exception as e:
+    print(f"Ошибка: {e}")
+finally:
+    if connection:
+        cursor.close()
+        connection.close()
+
+Задание 2
+import psycopg2
+
+try:
+    # Подключение к базе данных
+    connection = psycopg2.connect(
+        user="postgres",
+        password="Egor",
+        host="localhost",
+        port="5432",
+        database="medical_db"
+    )
+    
+    # Создание курсора
+    cursor = connection.cursor()
+    
+    # SQL-запрос для создания таблицы (если она еще не существует)
+    create_table_query = """
+        CREATE TABLE IF NOT EXISTS Products (
+            Name VARCHAR(100) NOT NULL,
+            Price DECIMAL
+        );
+    """
+    
+    # Выполнение SQL-запроса для создания таблицы
+    cursor.execute(create_table_query)
+    print("Таблица 'Products' успешно создана или уже существует.")
+    
+    # SQL-запрос для вставки 10 товаров
+    insert_query = """
+        INSERT INTO Products (Name, Price)
+        VALUES 
+        ('Laptop', 1200.00),
+        ('Smartphone', 800.00),
+        ('Headphones', 150.00),
+        ('Keyboard', 50.00),
+        ('Mouse', 30.00),
+        ('Monitor', 300.00),
+        ('Printer', 200.00),
+        ('Scanner', 180.00),
+        ('Tablet', 600.00),
+        ('Camera', 700.00);
+    """
+    
+    # Выполнение SQL-запроса для вставки данных
+    cursor.execute(insert_query)
+    connection.commit()
+    print("10 товаров успешно вставлены в таблицу 'Products'.")
+    
+except Exception as e:
+    print(f"Ошибка: {e}")
+finally:
+    if connection:
+        cursor.close()
+        connection.close()
+        print("Соединение с PostgreSQL закрыто.")
+
+Задание 3.
+Создадим таблицу Patient с полями p_id, p_name, d_id. Также пропишем второстепенный ключ к полю doctor_id
+
+import psycopg2
+
+try:
+    # Подключение к базе данных
+    connection = psycopg2.connect(
+        user="postgres",
+        password="Egor",
+        host="localhost",
+        port="5432",
+        database="medical_db"
+    )
+    
+    # Создание курсора
+    cursor = connection.cursor()
+    
+    # SQL-запрос для создания таблицы patient
+    create_table_query = """
+        CREATE TABLE IF NOT EXISTS patient (
+            patient_id SERIAL PRIMARY KEY,
+            patient_name VARCHAR(100) NOT NULL,
+            doctor_id INTEGER NOT NULL,
+            FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id)
+        );
+    """
+    
+    # Выполнение запроса
+    cursor.execute(create_table_query)
+    connection.commit()
+    print("Таблица 'patient' успешно создана.")
+
+except (Exception, psycopg2.Error) as error:
+    print("Ошибка при создании таблицы:", error)
+
+finally:
+    if connection:
+        cursor.close()
+        connection.close()
+        print("Соединение с PostgreSQL закрыто.")
+
+Затем внесем несколько пациентов в таблицу patient
+
+import psycopg2
+
+try:
+    # Подключение к базе данных
+    connection = psycopg2.connect(
+        user="postgres",
+        password="Egor",
+        host="localhost",
+        port="5432",
+        database="medical_db"
+    )
+    
+    # Создание курсора
+    cursor = connection.cursor()
+
+    insert_query = """
+        INSERT INTO patient (Patient_id, patient_name, doctor_id)
+        VALUES 
+       ('1','Alice', 109),
+('2','Bob', 110 ),
+('3','Charlie', 109 );
+    """
+    
+    # Выполнение SQL-запроса для вставки данных
+    cursor.execute(insert_query)
+    connection.commit()
+    print("данные добавлены'.")
+
+except Exception as e:
+    print(f"Ошибка: {e}")
+finally:
+    if connection:
+        cursor.close()
+        connection.close()
+        print("Соединение с PostgreSQL закрыто.")
+
+
+Выполним запрос с Join тк данные хранятся в 2 таблицах
+
+import psycopg2
+
+try:
+    # Подключение к базе данных
+    connection = psycopg2.connect(
+        user="postgres",
+        password="Egor",
+        host="localhost",
+        port="5432",
+        database="medical_db"
+    )
+    
+    # Создание курсора
+    cursor = connection.cursor()
+    
+    # SQL-запрос для получения пациентов, получающих лечение от Orthopedic
+    select_query = """
+        SELECT 
+            p.patient_id,
+            p.patient_name,
+            p.doctor_id,
+            d.doctor_name,
+            d.speciality
+        FROM 
+            patient p
+        JOIN 
+            doctor d
+        ON 
+            p.doctor_id = d.doctor_id
+        WHERE 
+            d.speciality LIKE '%Orthopedic Surgeon%';
+    """
+    
+    # Выполнение запроса
+    cursor.execute(select_query)
+    records = cursor.fetchall()
+
+    # Вывод результатов
+    print("Пациенты, получающие лечение от врача специальности 'Orthopedic Surgeon':")
+    for row in records:
+        print(f"ID пациента: {row[0]}, Имя пациента: {row[1]}, ID врача: {row[2]}, Имя врача: {row[3]}, Специальность врача: {row[4]}")
+
+except (Exception, psycopg2.Error) as error:
+    print("Ошибка при работе с PostgreSQL:", error)
+
+finally:
+    if connection:
+        cursor.close()
+        connection.close()
+        print("Соединение с PostgreSQL закрыто.")
+
+Задание 4. Выполните SQL-запрос для получения врачей, специализирующихся на "Dermatology".
+import psycopg2
+
+try:
+    # Подключение к базе данных
+    connection = psycopg2.connect(
+        user="postgres",
+        password="Egor",
+        host="localhost",
+        port="5432",
+        database="medical_db"
+    )
+    
+    # Создание курсора
+    cursor = connection.cursor()
+    
+    # SQL-запрос для получения врачей, специализирующихся на Dermatology
+    select_query = """
+        SELECT 
+            doctor_id,
+            doctor_name,
+            hospital_id,
+            joining_date,
+            speciality,
+            salary,
+            experience
+        FROM 
+            doctor
+        WHERE 
+            speciality = %s;
+    """
+    
+    # Выполнение запроса
+    cursor.execute(select_query, ('Dermatologist',))
+    records = cursor.fetchall()
+
+    # Вывод результатов
+    print("Врачи, специализирующиеся на Dermatologist:")
+    for row in records:
+        print(f"ID врача: {row[0]}, Имя врача: {row[1]}, ID больницы: {row[2]}, Дата приема: {row[3]}, Специальность: {row[4]}, Зарплата: {row[5]}, Опыт: {row[6]}")
+
+except (Exception, psycopg2.Error) as error:
+    print("Ошибка при работе с PostgreSQL:", error)
+
+finally:
+    if connection:
+        cursor.close()
+        connection.close()
+        print("Соединение с PostgreSQL закрыто.")
+
+Задание 5.Создайте диаграмму для анализа распределения зарплат в зависимости от опыта.
+Подключим библиотеку для визуализации запросов matplotlib
+
+import psycopg2
+
+
+try:
+    # Подключение к базе данных
+    connection = psycopg2.connect(
+        user="postgres",
+        password="Egor",
+        host="localhost",
+        port="5432",
+        database="medical_db"
+    )
+    
+    # Создание курсора
+    cursor = connection.cursor()
+    
+    # SQL-запрос для получения зарплат и опыта
+    select_query = """
+        SELECT 
+            experience,
+            salary
+        FROM 
+            doctor
+        WHERE 
+            experience IS NOT NULL AND salary IS NOT NULL;
+    """
+    
+    # Выполнение запроса
+    cursor.execute(select_query)
+    records = cursor.fetchall()
+
+    # Разделение данных на два списка: опыт и зарплаты
+    experience = [row[0] for row in records]
+    salary = [row[1] for row in records]
+
+    # Построение диаграммы
+    plt.figure(figsize=(10, 6))
+    plt.scatter(experience, salary, color='blue', alpha=0.7)
+
+    # Настройка осей и заголовка
+    plt.title('Распределение зарплат в зависимости от опыта', fontsize=16)
+    plt.xlabel('Опыт (лет)', fontsize=14)
+    plt.ylabel('Зарплата', fontsize=14)
+
+    # Добавление сетки
+    plt.grid(True, linestyle='--', alpha=0.6)
+
+    # Отображение диаграммы
+    plt.show()
+
+except (Exception, psycopg2.Error) as error:
+    print("Ошибка при работе с PostgreSQL:", error)
+
+finally:
+    if connection:
+        cursor.close()
+        connection.close()
+        print("Соединение с PostgreSQL закрыто.")
